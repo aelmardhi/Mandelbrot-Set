@@ -4,22 +4,22 @@
 template <class T>
 class Window{
     public:
-    T minX_, maxX_, minY_, maxY_;
-    Window(T minX, T maxX, T minY, T maxY): minX_(minX), maxX_(maxX), minY_(minY), maxY_(maxY) {}
+    T minX, maxX, minY, maxY;
+    Window(T minX, T maxX, T minY, T maxY): minX(minX), maxX(maxX), minY(minY), maxY(maxY) {}
     T Width(){
-        return maxX_ - minX_;
+        return maxX - minX;
     }
     T Height(){
-        return maxY_ - minY_;
+        return maxY - minY;
     }
     T Size(){
         return Width() * Height();
     }
     void resize(T minX, T maxX, T minY, T maxY){
-        minX_ = minX;
-        maxX_ = maxX;
-        minY_ = minY;
-        maxY_ = maxY;
+        this->minX = minX;
+        this->maxX = maxX;
+        this->minY = minY;
+        this->maxY = maxY;
     }
 };
 
