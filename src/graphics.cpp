@@ -32,8 +32,7 @@ cv::Vec3b Graphics::get_rgb_smooth(int n, int iter_max) {
 }
 
 cv::Mat Graphics::get_image(){
-  Mandelbrot set(scr_, fract_, iterMax_, func_);
-  auto colors = set.fractal();
+  auto colors = set_->fractal();
   cv::Mat mat(scr_.Height(), scr_.Width(), CV_8UC3, cv::Scalar(0, 250, 0));
   int n = 0;
   for (int i = scr_.minY; i < scr_.maxY; ++i) {
@@ -53,6 +52,8 @@ func_ ( [](Complex z, Complex c) -> Complex { return z * z + c; }),
 iterMax_ (500),
 _windowName ("Concurrency Traffic Simulation")
  {
+
+  set_ = std::make_unique<Mandelbrot>(scr_, fract_, iterMax_, func_);
   cv::namedWindow(_windowName, cv::WINDOW_NORMAL);
   cv::Mat mat = get_image();
   cv::Mat img;

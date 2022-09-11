@@ -11,6 +11,7 @@
 #include "window.h"
 
 #include <string>
+#include <memory>
 
 class Graphics {
 public:
@@ -21,6 +22,7 @@ private:
   cv::Vec3b get_rgb_piecewise_linear(int n, int iter_max);
   cv::Vec3b get_rgb_smooth(int n, int iter_max);
   cv::Mat get_image();
+  std::unique_ptr<Mandelbrot> set_;
   std::thread thread_;
   Window<int> scr_;
   // The domain in which we test for points

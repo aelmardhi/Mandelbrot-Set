@@ -1,7 +1,6 @@
 #include "mandelbrot.h"
 #include <chrono>
 #include <iostream>
-#include <thread>
 #include <future>
 #include <vector>
 
