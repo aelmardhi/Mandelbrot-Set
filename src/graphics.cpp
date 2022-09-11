@@ -32,15 +32,14 @@ cv::Vec3b Graphics::get_rgb_smooth(int n, int iter_max) {
   return color;
 }
 
-Graphics::Graphics() {
+Graphics::Graphics() :
+scr_(0, 1200, 0, 1200),
+fract_(-1.5, 1.5, -1.5, 1.5),
+func_ ( [](Complex z, Complex c) -> Complex { return z * z + c; }),
+iterMax_ (500),
+_windowName ("Concurrency Traffic Simulation")
+ {
 
-  Window<int> scr_(0, 1200, 0, 1200);
-  // The domain in which we test for points
-  Window<double> fract_(-1.5, 1.5, -1.5, 1.5);
-  // The function used to calculate the fractal
-  auto func_ = [](Complex z, Complex c) -> Complex { return z * z + c; };
-  int iterMax_ = 500;
-  std::string _windowName = "Concurrency Traffic Simulation";
   Mandelbrot set(scr_, fract_, iterMax_, func_);
   auto colors = set.fractal();
   cv::namedWindow(_windowName, cv::WINDOW_NORMAL);
