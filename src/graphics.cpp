@@ -57,7 +57,7 @@ _windowName ("Concurrency Traffic Simulation")
   cv::namedWindow(_windowName, cv::WINDOW_NORMAL);
   cv::Mat mat = get_image();
   cv::Mat img;
-  cv::resize(mat, img, cv::Size(1040, 720), 0, 0, 1);
+  cv::resize(mat, img, cv::Size(WIDTH, HEIGHT), 0, 0, 1);
   cv::imshow(_windowName, img);
   cv::waitKey(33);
   thread_ = std::thread([this,img]{

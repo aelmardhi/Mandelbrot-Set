@@ -32,6 +32,8 @@ private:
   int iterMax_ ;
   std::string _windowName ;
   static void onMouse( int event, int x, int y, int flags, void* param );
+  static constexpr int WIDTH {1040};
+  static constexpr int HEIGHT {720};
 };
 
 #endif
