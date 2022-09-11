@@ -10,9 +10,9 @@ using Complex = std::complex<double>;
 
 class Mandelbrot {
 public:
-  Mandelbrot(Window<int> &scr, Window<double> &fract, int iterMax,
+  Mandelbrot(Window<int> *scr, Window<double> *fract, int iterMax,
              const std::function<Complex(Complex, Complex)> &func)
-      : scr_(scr), fract_(fract), iterMax_(iterMax), func_(func),
+      : scr_(*scr), fract_(*fract), iterMax_(iterMax), func_(func),
         colors_(std::vector<int>(scr_.Size())) {}
   std::vector<int> fractal();
 

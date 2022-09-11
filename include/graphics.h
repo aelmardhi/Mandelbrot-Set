@@ -24,9 +24,9 @@ private:
   cv::Mat get_image();
   std::unique_ptr<Mandelbrot> set_;
   std::thread thread_;
-  Window<int> scr_;
+  std::unique_ptr<Window<int>> scr_;
   // The domain in which we test for points
-  Window<double> fract_;
+  std::unique_ptr<Window<double>> fract_;
   // The function used to calculate the fractal
   std::function<Complex(Complex,Complex)> func_ ;
   int iterMax_ ;

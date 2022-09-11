@@ -33,10 +33,10 @@ cv::Vec3b Graphics::get_rgb_smooth(int n, int iter_max) {
 
 cv::Mat Graphics::get_image(){
   auto colors = set_->fractal();
-  cv::Mat mat(scr_.Height(), scr_.Width(), CV_8UC3, cv::Scalar(0, 250, 0));
+  cv::Mat mat(scr_->Height(), scr_->Width(), CV_8UC3, cv::Scalar(0, 250, 0));
   int n = 0;
-  for (int i = scr_.minY; i < scr_.maxY; ++i) {
-    for (int j = scr_.minX; j < scr_.maxX; ++j) {
+  for (int i = scr_->minY; i < scr_->maxY; ++i) {
+    for (int j = scr_->minX; j < scr_->maxX; ++j) {
 
       mat.at<cv::Vec3b>(cv::Point(j, i)) =
           get_rgb_smooth(colors[n++], iterMax_);
@@ -46,14 +46,14 @@ cv::Mat Graphics::get_image(){
 }
 
 Graphics::Graphics() :
-scr_(0, 1200, 0, 1200),
-fract_(-1.5, 1.5, -1.5, 1.5),
 func_ ( [](Complex z, Complex c) -> Complex { return z * z + c; }),
 iterMax_ (500),
 _windowName ("Concurrency Traffic Simulation")
  {
 
-  set_ = std::make_unique<Mandelbrot>(scr_, fract_, iterMax_, func_);
+  scr_ = std::make_unique<Window<int>>(0, 1200, 0, 1200);
+  fract_ = std::make_unique<Window<double>>(-1.5, 1.5, -1.5, 1.5);
+  set_ = std::make_unique<Mandelbrot>(scr_.get(), fract_.get(), iterMax_, func_);
   cv::namedWindow(_windowName, cv::WINDOW_NORMAL);
   cv::Mat mat = get_image();
   cv::Mat img;
