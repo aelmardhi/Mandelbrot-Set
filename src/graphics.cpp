@@ -51,7 +51,7 @@ iterMax_ (500),
 _windowName ("Concurrency Traffic Simulation")
  {
 
-  scr_ = std::make_unique<Window<int>>(0, 1200, 0, 1200);
+  scr_ = std::make_unique<Window<int>>(0, WIDTH, 0, HEIGHT);
   fract_ = std::make_unique<Window<double>>(-1.5, 1.5, -1.5, 1.5);
   set_ = std::make_unique<Mandelbrot>(scr_.get(), fract_.get(), iterMax_, func_);
   cv::namedWindow(_windowName, cv::WINDOW_NORMAL);
@@ -65,6 +65,7 @@ _windowName ("Concurrency Traffic Simulation")
 	while (true) {
 		std::this_thread::sleep_for(std::chrono::milliseconds(1000));
 		cv::imshow(_windowName, *img_);
+		cv::waitKey(33);
 	}
   });
   

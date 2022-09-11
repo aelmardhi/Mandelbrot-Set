@@ -34,8 +34,8 @@ private:
   std::string _windowName ;
   static void onMouse( int event, int x, int y, int flags, void* param );
   void zoomIn(double x, double y);
-  static constexpr int WIDTH {1040};
-  static constexpr int HEIGHT {720};
+  static constexpr int WIDTH {1920};
+  static constexpr int HEIGHT {1080};
 };
 
 #endif
