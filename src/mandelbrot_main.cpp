@@ -3,4 +3,5 @@
 
 int main() {
 Graphics graphics;
+graphics.join();
 }

@@ -2,7 +2,6 @@
 
 #include <chrono>
 #include <iostream>
-#include <thread>
 
 
 cv::Vec3b Graphics::get_rgb_piecewise_linear(int n, int iter_max) {
@@ -32,17 +31,9 @@ cv::Vec3b Graphics::get_rgb_smooth(int n, int iter_max) {
   return color;
 }
 
-Graphics::Graphics() :
-scr_(0, 1200, 0, 1200),
-fract_(-1.5, 1.5, -1.5, 1.5),
-func_ ( [](Complex z, Complex c) -> Complex { return z * z + c; }),
-iterMax_ (500),
-_windowName ("Concurrency Traffic Simulation")
- {
-
+cv::Mat Graphics::get_image(){
   Mandelbrot set(scr_, fract_, iterMax_, func_);
   auto colors = set.fractal();
-  cv::namedWindow(_windowName, cv::WINDOW_NORMAL);
   cv::Mat mat(scr_.Height(), scr_.Width(), CV_8UC3, cv::Scalar(0, 250, 0));
   int n = 0;
   for (int i = scr_.minY; i < scr_.maxY; ++i) {
@@ -52,13 +43,44 @@ _windowName ("Concurrency Traffic Simulation")
           get_rgb_smooth(colors[n++], iterMax_);
     }
   }
+  return mat;
+}
+
+Graphics::Graphics() :
+scr_(0, 1200, 0, 1200),
+fract_(-1.5, 1.5, -1.5, 1.5),
+func_ ( [](Complex z, Complex c) -> Complex { return z * z + c; }),
+iterMax_ (500),
+_windowName ("Concurrency Traffic Simulation")
+ {
+  cv::namedWindow(_windowName, cv::WINDOW_NORMAL);
+  cv::Mat mat = get_image();
   cv::Mat img;
   cv::resize(mat, img, cv::Size(1040, 720), 0, 0, 1);
   cv::imshow(_windowName, img);
   cv::waitKey(33);
-  while (true) {
-    std::this_thread::sleep_for(std::chrono::milliseconds(1000));
-    cv::imshow(_windowName, img);
-    cv::waitKey(33);
-  }
+  thread_ = std::thread([this,img]{
+	while (true) {
+		std::this_thread::sleep_for(std::chrono::milliseconds(1000));
+		cv::imshow(_windowName, img);
+		cv::waitKey(33);
+	}
+  });
+  
 }
+
+void Graphics::join(){
+	thread_.join();
+}
+
+// static void Graphics::onMouse( int event, int x, int y, int flags, void* param )
+// {
+// 	mousex = x;
+// 	mousey = y;
+	
+
+//     if(event == CV_EVENT_LBUTTONDOWN)
+// 		imagen = zoomIn(x, y);
+// 	else if(event == CV_EVENT_RBUTTONDOWN)
+// 		imagen = zoomOut(x, y);
+// }
