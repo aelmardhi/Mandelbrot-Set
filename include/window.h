@@ -15,7 +15,7 @@ public:
     this->minY = minY;
     this->maxY = maxY;
   }
-  void  resize (double dx, double dy, double r){
+  void  resizeLimited (double dx, double dy, double r){
     T x = minX + dx * Width();
     T y = minY + dy * Height();
     T w = Width() *r;
@@ -28,6 +28,16 @@ public:
     minY = (t < minY)? minY : t ;
     t = y + h/2;
     maxY = (t > maxY)? maxY : t ;
+  }
+  void  resize (double dx, double dy, double r){
+    T x = minX + dx * Width();
+    T y = minY + dy * Height();
+    T w = Width() *r;
+    T h = Height() *r;
+    minX = x -  w/2;
+    maxX = x +  w/2;
+    minY = y -  h/2;
+    maxY = y + h/2;
   }
 };
 

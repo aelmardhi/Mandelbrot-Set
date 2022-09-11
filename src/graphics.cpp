@@ -82,12 +82,17 @@ void Graphics::onMouse( int event, int x, int y, int flags, void* param )
 	Graphics *g =(Graphics*) param;
     if(event == cv::EVENT_LBUTTONDOWN)
 		g->zoomIn(dx, dy);
-	// else if(event == CV_EVENT_RBUTTONDOWN)
-	// 	imagen = zoomOut(x, y);
+	else if(event == cv::EVENT_RBUTTONDOWN)
+		g->zoomOut(dx, dy);
 }
 
 void Graphics::zoomIn(double x, double y){
   fract_->resize(x,y,0.1);
+  cv::Mat mat = get_image();
+  cv::resize(mat, *img_, cv::Size(WIDTH, HEIGHT), 0, 0, 1);
+}
+void Graphics::zoomOut(double x, double y){
+  fract_->resize(x,y,10);
   cv::Mat mat = get_image();
   cv::resize(mat, *img_, cv::Size(WIDTH, HEIGHT), 0, 0, 1);
 }
