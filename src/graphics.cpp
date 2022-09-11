@@ -56,15 +56,15 @@ _windowName ("Concurrency Traffic Simulation")
   set_ = std::make_unique<Mandelbrot>(scr_.get(), fract_.get(), iterMax_, func_);
   cv::namedWindow(_windowName, cv::WINDOW_NORMAL);
   cv::Mat mat = get_image();
-  cv::Mat img;
-  cv::resize(mat, img, cv::Size(WIDTH, HEIGHT), 0, 0, 1);
-  cv::imshow(_windowName, img);
+  img_ = std::make_unique<cv::Mat>();
+  cv::resize(mat, *img_, cv::Size(WIDTH, HEIGHT), 0, 0, 1);
+  cv::imshow(_windowName, *img_);
   cv::waitKey(33);
-  thread_ = std::thread([this,img]{
+  cv::setMouseCallback(_windowName, onMouse, (void*)this);
+  thread_ = std::thread([this]{
 	while (true) {
 		std::this_thread::sleep_for(std::chrono::milliseconds(1000));
-		cv::imshow(_windowName, img);
-		cv::waitKey(33);
+		cv::imshow(_windowName, *img_);
 	}
   });
   
@@ -74,14 +74,19 @@ void Graphics::join(){
 	thread_.join();
 }
 
-// static void Graphics::onMouse( int event, int x, int y, int flags, void* param )
-// {
-// 	mousex = x;
-// 	mousey = y;
-	
+void Graphics::onMouse( int event, int x, int y, int flags, void* param )
+{
+	double dx = (double) x / (double)WIDTH;
+	double dy = (double) y / (double)HEIGHT;
+	Graphics *g =(Graphics*) param;
+    if(event == cv::EVENT_LBUTTONDOWN)
+		g->zoomIn(dx, dy);
+	// else if(event == CV_EVENT_RBUTTONDOWN)
+	// 	imagen = zoomOut(x, y);
+}
 
-//     if(event == CV_EVENT_LBUTTONDOWN)
-// 		imagen = zoomIn(x, y);
-// 	else if(event == CV_EVENT_RBUTTONDOWN)
-// 		imagen = zoomOut(x, y);
-// }
+void Graphics::zoomIn(double x, double y){
+  fract_->resize(x,y,0.1);
+  cv::Mat mat = get_image();
+  cv::resize(mat, *img_, cv::Size(WIDTH, HEIGHT), 0, 0, 1);
+}

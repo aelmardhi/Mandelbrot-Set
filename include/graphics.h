@@ -22,6 +22,7 @@ private:
   cv::Vec3b get_rgb_piecewise_linear(int n, int iter_max);
   cv::Vec3b get_rgb_smooth(int n, int iter_max);
   cv::Mat get_image();
+  std::unique_ptr<cv::Mat> img_;
   std::unique_ptr<Mandelbrot> set_;
   std::thread thread_;
   std::unique_ptr<Window<int>> scr_;
@@ -32,6 +33,7 @@ private:
   int iterMax_ ;
   std::string _windowName ;
   static void onMouse( int event, int x, int y, int flags, void* param );
+  void zoomIn(double x, double y);
   static constexpr int WIDTH {1040};
   static constexpr int HEIGHT {720};
 };
