@@ -1,6 +1,9 @@
 #include "mandelbrot.h"
 #include <chrono>
 #include <iostream>
+#include <thread>
+#include <future>
+#include <vector>
 
 Complex Mandelbrot::scale(Complex c) {
   Complex t(c.real() / (double)scr_.Width() * fract_.Width() + fract_.minX,
@@ -21,17 +24,30 @@ int Mandelbrot::escape(Complex c) {
 }
 
 void Mandelbrot::get_number_iterations() {
-  int k = 0, progress = -1;
+  int progress = -1;
+  std::vector<std::future<std::vector<int>>> ftrs ;
   for (int i = scr_.minY; i < scr_.maxY; ++i) {
-    for (int j = scr_.minX; j < scr_.maxX; ++j) {
-      Complex c((double)j, (double)i);
-      c = scale(c);
-      colors_[k] = escape(c);
-      k++;
-    }
-    if (progress < (int)(i * 100.0 / scr_.maxY)) {
-      progress = (int)(i * 100.0 / scr_.maxY);
-      // std::cout << progress << "%\n";
+    ftrs.emplace_back(std::async([this,i]{
+      std::vector<int> vec;
+      for (int j = scr_.minX; j < scr_.maxX; ++j) {
+        Complex c((double)j, (double)i);
+        c = scale(c);
+        vec.emplace_back( escape(c));
+      }
+      return vec;
+    }));
+
+      // if (progress < (int)(i * 100.0 / scr_.maxY)) {
+      //   progress = (int)(i * 100.0 / scr_.maxY);
+      //   // std::cout << progress << "%\n";
+      // }
+  }
+
+  int k = 0;
+  for(auto &ftr : ftrs ){
+    auto v = ftr.get();
+    for(int i : v){
+      colors_[k++] = i;
     }
   }
 }
