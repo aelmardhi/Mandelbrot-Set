@@ -1,3 +1,8 @@
+/*
+some of this code comes from following this tutorial
+https://solarianprogrammer.com/2013/02/28/mandelbrot-set-cpp-11/
+*/
+
 #include "mandelbrot.h"
 #include <chrono>
 #include <iostream>
