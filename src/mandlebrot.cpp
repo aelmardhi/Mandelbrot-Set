@@ -65,7 +65,5 @@ std::vector<int> Mandelbrot::fractal() {
             << std::chrono::duration<double, std::milli>(end - start).count()
             << " [ms]" << std::endl;
 
-  // Save (show) the result as an image
-  // plot(scr, colors, iter_max, fname, smooth_color);
   return colors_;
 }
