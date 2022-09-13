@@ -48,7 +48,7 @@ cv::Mat Graphics::get_image(){
 Graphics::Graphics() :
 func_ ( [](Complex z, Complex c) -> Complex { return z * z + c; }),
 iterMax_ (500),
-_windowName ("Concurrency Traffic Simulation")
+_windowName ("Mandelbrot Set Visualization")
  {
 
   scr_ = std::make_unique<Window<int>>(0, WIDTH, 0, HEIGHT);
