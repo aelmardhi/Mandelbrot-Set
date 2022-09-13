@@ -25,3 +25,4 @@ A visualization of the [Mandelbrot set](http://en.wikipedia.org/wiki/Mandelbrot_
 3. Run the program ` build/mandelbrot `
 
 > use mouse to zoom
+
