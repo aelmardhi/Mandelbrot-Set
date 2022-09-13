@@ -16,6 +16,7 @@
 class Graphics {
 public:
   Graphics();
+  ~Graphics(){}
   void join();
 
 private:
