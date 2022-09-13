@@ -4,7 +4,7 @@ A visualization of the [Mandelbrot set](http://en.wikipedia.org/wiki/Mandelbrot_
 
 <img src="images/screenshot.png">
 
-# Dependencies for Running Locally
+## Dependencies for Running Locally
 * cmake >= 2.8
   * All OSes: [click here for installation instructions](https://cmake.org/install/)
 * make >= 4.1 (Linux, Mac), 3.81 (Windows)
@@ -25,4 +25,6 @@ A visualization of the [Mandelbrot set](http://en.wikipedia.org/wiki/Mandelbrot_
 3. Run the program ` build/mandelbrot `
 
 > use mouse to zoom
+
+##  Overview of code structure
 
